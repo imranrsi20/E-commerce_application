@@ -10,8 +10,7 @@ from product.models import *
 def order(request):
     return HttpResponse("order page")
 
-def login(request):
-    return HttpResponse("login page")
+
 
 @login_required(login_url='/login/')
 def addtocard(request,id):
@@ -30,12 +29,16 @@ def addtocard(request,id):
                 data=ShopCart.objects.get(product_id=id)
                 data.quantity += form.cleaned_data['quantity']
                 data.save()
+                total_item = ShopCart.objects.filter(user_id=current_user.id)
+                request.session['total_item'] = total_item.count()
             else:  # insert item into shop cart
                 data=ShopCart()
                 data.user_id=current_user.id
                 data.product_id=id
                 data.quantity= form.cleaned_data['quantity']
                 data.save()
+                total_item = ShopCart.objects.filter(user_id=current_user.id)
+                request.session['total_item'] = total_item.count()
 
         messages.success(request,'your item is added in cart')
         return HttpResponseRedirect(url)
@@ -45,12 +48,16 @@ def addtocard(request,id):
             data = ShopCart.objects.get(product_id=id)
             data.quantity += 1
             data.save()
+            total_item = ShopCart.objects.filter(user_id=current_user.id)
+            request.session['total_item'] = total_item.count()
         else:  # insert item into shop cart
             data = ShopCart()
             data.user_id = current_user.id
             data.product_id = id
             data.quantity = 1
             data.save()
+            total_item = ShopCart.objects.filter(user_id=current_user.id)
+            request.session['total_item'] = total_item.count()
 
         messages.success(request,'item added succesfully')
         return HttpResponseRedirect(url)

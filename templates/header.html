@@ -46,16 +46,25 @@
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto">
-                            {% if request.user.id is not None %}
-                                <img src="{{request.user.image}}" alt="image"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user.first_name}}</a>
-                            {% else %}
 
+                            <div class="nav-item dropdown">
+                                {% if request.user.id is not None %}
+                                <img src="{{request.session.userimage}}" style="height: 20px; border-radius: 30%;width: 20px">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user.first_name}}</a>
 
+                                <div class="dropdown-menu">
+                                    <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
 
-                                    <a href="{% url 'login' %}" class="dropdown-item">Login</a>
-                                    <a href="#" class="dropdown-item">Register</a>
+                                </div>
+                                {% else %}
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Add account</a>
 
-                            {% endif %}
+                                <div class="dropdown-menu">
+                                    <a href="{% url 'signup' %}" class="dropdown-item">Signup</a>
+
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -95,7 +104,7 @@
                             </a>
                             <a href="{% url 'shopcart' %}" class="btn cart">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>(0)</span>
+                                <span>{{request.session.total_item}}</span>
                             </a>
                         </div>
                     </div>
