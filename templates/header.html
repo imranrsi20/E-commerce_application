@@ -1,4 +1,5 @@
 {% load static %}
+
         <!-- Top bar Start -->
         <div class="top-bar">
             <div class="container-fluid">
@@ -31,6 +32,8 @@
                             <a href="product-list.html" class="nav-item nav-link">Products</a>
                             <a href="product-detail.html" class="nav-item nav-link">Product Detail</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
+                            <a href="{% url 'about' %}" class="nav-item nav-link">About Us</a>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                             <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                             <a href="my-account.html" class="nav-item nav-link">My Account</a>
                             <div class="nav-item dropdown">
@@ -43,19 +46,25 @@
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
-                                <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">Login</a>
+                            {% if request.user.id is not None %}
+                                <img src="{{request.user.image}}" alt="image"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user.first_name}}</a>
+                            {% else %}
+
+
+
+                                    <a href="{% url 'login' %}" class="dropdown-item">Login</a>
                                     <a href="#" class="dropdown-item">Register</a>
-                                </div>
-                            </div>
+
+                            {% endif %}
                         </div>
                     </div>
                 </nav>
             </div>
         </div>
-        <!-- Nav Bar End -->      
+        <!-- Nav Bar End -->
+
+
+
         
         <!-- Bottom Bar Start -->
         <div class="bottom-bar">
@@ -63,24 +72,28 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{% url 'index' %}">
                                 <img src="{% static 'img/logo.png' %}" alt="Logo">
                             </a>
                         </div>
                     </div>
+
                     <div class="col-md-6">
+                        <form action="{% url 'search' %}" method="post">
+                            {% csrf_token %}
                         <div class="search">
-                            <input type="text" placeholder="Search">
+                            <input id="search_id" type="text" name="search" placeholder="Search">
                             <button><i class="fa fa-search"></i></button>
                         </div>
+                        </form>
                     </div>
                     <div class="col-md-3">
                         <div class="user">
-                            <a href="wishlist.html" class="btn wishlist">
+                            <a href="{% url 'whilst' %}" class="btn wishlist">
                                 <i class="fa fa-heart"></i>
                                 <span>(0)</span>
                             </a>
-                            <a href="cart.html" class="btn cart">
+                            <a href="{% url 'shopcart' %}" class="btn cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>(0)</span>
                             </a>
@@ -89,4 +102,4 @@
                 </div>
             </div>
         </div>
-        <!-- Bottom Bar End -->    
+

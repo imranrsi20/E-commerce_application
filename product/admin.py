@@ -5,10 +5,20 @@ from product.models import *
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title','parent','status']
     list_filter = ['status']
+    prepopulated_fields = {'slug': ('title',)}
+
+class ProductImageInline(admin.TabularInline):
+    model = Images
+    extra = 5
 
 class ProductyAdmin(admin.ModelAdmin):
-    list_display = ['title','category','status']
+    list_display = ['title','category','status','image_tag']
     list_filter = ['category']
+    readonly_fields = ('image_tag',)
+    inlines = [ProductImageInline]
+    prepopulated_fields = {'slug': ('title',)}
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Product,ProductyAdmin)
+admin.site.register(Images)
+admin.site.register(Comment)

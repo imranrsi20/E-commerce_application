@@ -5,27 +5,17 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="header-slider normal-slider">
+                            {% for sp in s_p %}
                             <div class="header-slider-item">
-                                <img src="{% static 'img/slider-1.jpg' %}" alt="Slider Image" />
+                                <img src="{{sp.image.url}}" alt="Slider Image"  />
                                 <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                                    <p>{{sp.title}}</p>
+                                    <h1>{{sp.price}}</h1>
+                                    <a class="btn" href="{% url 'product' %}"><i class="fa fa-shopping-cart"></i>Shop Now</a>
                                 </div>
                             </div>
-                            <div class="header-slider-item">
-                                <img src="{% static 'img/slider-2.jpg' %}" alt="Slider Image" />
-                                <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
-                                </div>
-                            </div>
-                            <div class="header-slider-item">
-                                <img src="{% static 'img/slider-3.jpg' %}" alt="Slider Image" />
-                                <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
-                                </div>
-                            </div>
+                            {% endfor %}
+
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -47,4 +37,4 @@
                 </div>
             </div>
         </div>
-        <!-- Main Slider End -->  
+        <!-- Main Slider End -->
