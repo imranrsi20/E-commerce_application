@@ -28,124 +28,101 @@
         <!-- Checkout Start -->
         <div class="checkout">
             <div class="container-fluid">
+
+                <form action="" method="post">
+                    {% csrf_token %}
+
                 <div class="row">
+
                     <div class="col-lg-8">
                         <div class="checkout-inner">
                             <div class="billing-address">
                                 <h2>Billing Address</h2>
                                 <div class="row">
+
+
                                     <div class="col-md-6">
                                         <label>First Name</label>
-                                        <input class="form-control" type="text" placeholder="First Name">
+                                        <input name="first_name" value="{{user.first_name}}" class="form-control" type="text" placeholder="First Name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Last Name"</label>
-                                        <input class="form-control" type="text" placeholder="Last Name">
+                                        <input name="last_name" value="{{user.last_name}}" class="form-control" type="text" placeholder="Last Name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>E-mail</label>
-                                        <input class="form-control" type="text" placeholder="E-mail">
+                                        <input name="email" value="{{user.email}}" class="form-control" type="text" placeholder="E-mail">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Mobile No</label>
-                                        <input class="form-control" type="text" placeholder="Mobile No">
+                                        <input name="phone" value="{{profile.phone}}" class="form-control" type="text" placeholder="Mobile No">
                                     </div>
                                     <div class="col-md-12">
                                         <label>Address</label>
-                                        <input class="form-control" type="text" placeholder="Address">
+                                        <input name="address" value="{{profile.address}}" class="form-control" type="text" placeholder="Address">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Country</label>
-                                        <select class="custom-select">
-                                            <option selected>United States</option>
-                                            <option>Afghanistan</option>
-                                            <option>Albania</option>
-                                            <option>Algeria</option>
+                                        <select name="country"  class="custom-select">
+                                            <option value="{{profile.country}}" selected>{{profile.country}}</option>
+                                            <option value="Afghanistan">Afghanistan</option>
+                                            <option value="Albania">Albania</option>
+                                            <option value="Algeria">Algeria</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label>City</label>
-                                        <input class="form-control" type="text" placeholder="City">
+                                        <input name="city" value="{{profile.city}}" class="form-control" type="text" placeholder="City">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label>State</label>
-                                        <input class="form-control" type="text" placeholder="State">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>ZIP Code</label>
-                                        <input class="form-control" type="text" placeholder="ZIP Code">
-                                    </div>
+
                                     <div class="col-md-12">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="newaccount">
                                             <label class="custom-control-label" for="newaccount">Create an account</label>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="shipto">
-                                            <label class="custom-control-label" for="shipto">Ship to different address</label>
-                                        </div>
-                                    </div>
+
+
                                 </div>
                             </div>
 
-                            <div class="shipping-address">
-                                <h2>Shipping Address</h2>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>First Name</label>
-                                        <input class="form-control" type="text" placeholder="First Name">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Last Name"</label>
-                                        <input class="form-control" type="text" placeholder="Last Name">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>E-mail</label>
-                                        <input class="form-control" type="text" placeholder="E-mail">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Mobile No</label>
-                                        <input class="form-control" type="text" placeholder="Mobile No">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label>Address</label>
-                                        <input class="form-control" type="text" placeholder="Address">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Country</label>
-                                        <select class="custom-select">
-                                            <option selected>United States</option>
-                                            <option>Afghanistan</option>
-                                            <option>Albania</option>
-                                            <option>Algeria</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>City</label>
-                                        <input class="form-control" type="text" placeholder="City">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>State</label>
-                                        <input class="form-control" type="text" placeholder="State">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>ZIP Code</label>
-                                        <input class="form-control" type="text" placeholder="ZIP Code">
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="checkout-inner">
+
                             <div class="checkout-summary">
-                                <h1>Cart Total</h1>
-                                <p>Product Name<span>$99</span></p>
-                                <p class="sub-total">Sub Total<span>$99</span></p>
-                                <p class="ship-cost">Shipping Cost<span>$1</span></p>
-                                <h2>Grand Total<span>$100</span></h2>
+                                 <div class="col-md-12">
+                                        <p>
+                                            <label>Total</label>
+                                            <input name="total"  class="form-control" type="text" readonly value="{{total}}">
+                                        </p>
+                                    </div>
+                                <div class="col-md-12">
+                                        <p>
+                                            <label>Credit card holder</label>
+                                            <input name="holder"  class="form-control" type="text"  value="">
+                                        </p>
+                                    </div>
+                                <div class="col-md-12">
+                                        <p>
+                                            <label>Credit card number</label>
+                                            <input name="card_number"  class="form-control" type="text"  value="">
+                                        </p>
+                                    </div>
+                                <div class="col-md-12">
+                                        <p>
+                                            <label>Card Exp date/year</label>
+                                            <input name="exp_date"  class="form-control" type="text"  value="">
+                                        </p>
+                                    </div>
+                                <div class="col-md-12">
+                                        <p>
+                                            <label>Security number</label>
+                                            <input name="security_number"  class="form-control" type="text"  value="">
+                                        </p>
+                                    </div>
                             </div>
 
                             <div class="checkout-payment">
@@ -208,12 +185,13 @@
                                     </div>
                                 </div>
                                 <div class="checkout-btn">
-                                    <button>Place Order</button>
+                                    <button type="submit">Place Order</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
         <!-- Checkout End -->

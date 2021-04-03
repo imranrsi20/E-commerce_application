@@ -63,8 +63,8 @@ def contact(request):
 def product_detail(request,id,slug):
     category=Category.objects.all()
     product=Product.objects.get(pk=id)
-    images=Images.objects.filter(product__id=id)
-    comments=Comment.objects.filter(product__id=id)
+    images=Images.objects.filter(product_id=id)
+    comments=Comment.objects.filter(product_id=id)
     t_comment=comments.count()
     n_p=images.count()
 

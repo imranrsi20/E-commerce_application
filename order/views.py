@@ -3,8 +3,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 # Create your views here.
-from order.models import ShopCart, ShopCartForm
+from django.utils.crypto import get_random_string
+from .models import *
 from product.models import *
+from user.models import *
+
+
+from order.models import OrderForm
 
 
 def order(request):
@@ -61,3 +66,72 @@ def addtocard(request,id):
 
         messages.success(request,'item added succesfully')
         return HttpResponseRedirect(url)
+
+
+def orderproduct(request):
+    category=Category.objects.all()
+    current_user=request.user
+    shopcart=ShopCart.objects.filter(user_id=current_user.id)
+    total=0
+    for rs in shopcart:
+        total += rs.product.price * rs.quantity
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            # check bank or credit card information and if everything ok or return error message before save order
+            #......code
+            data=Order()
+            data.first_name = form.cleaned_data['first_name']
+            data.last_name = form.cleaned_data['last_name']
+            data.address = form.cleaned_data['address']
+            data.city = form.cleaned_data['city']
+            data.phone = form.cleaned_data['phone']
+            data.user_id = current_user.id
+            data.total = total
+            data.ip = request.META.get('REMOTE_ADDR')
+            ordercode = get_random_string(6).upper()
+            data.code = ordercode
+            data.save()
+
+            # move shopcart items to order product items
+
+            shopcart=ShopCart.objects.filter(user_id=current_user.id)
+            for rs in shopcart:
+                detail=OrderProduct()
+                detail.order_id = data.id # order id
+                detail.product_id = rs.product_id
+                detail.user_id = current_user.id
+                detail.quantity = rs.quantity
+                detail.price = rs.product.price
+                detail.amount = rs.amount
+                detail.save()
+
+                # reduce quantity of sold product from amount of product
+
+                product = Product.objects.get(id=rs.product_id)
+                product.amount -= rs.quantity
+                product.save()
+
+                #********<>**********
+
+            ShopCart.objects.filter(user_id=current_user.id).delete()  # clear and delete shopcart
+            request.session['total_item'] = 0
+            messages.success(request,'your order has been completed.thank you')
+            return render(request,'order_completed.html',{'ordercode':ordercode,'category':category})
+        else:
+            messages.warning(request,form.errors)
+            return HttpResponseRedirect('/orderproduct')
+    form = OrderForm()
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    profile = UserProfile.objects.get(user_id=current_user.id)
+    context={
+        'shopcart':shopcart,
+        'category':category,
+        'total':total,
+        'form':form,
+        'profile':profile,
+    }
+
+
+    return render(request,'checkout.html',context)

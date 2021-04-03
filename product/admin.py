@@ -11,6 +11,10 @@ class ProductImageInline(admin.TabularInline):
     model = Images
     extra = 5
 
+class ImagesAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    list_filter = ['title']
+
 class ProductyAdmin(admin.ModelAdmin):
     list_display = ['title','category','status','image_tag']
     list_filter = ['category']
@@ -20,5 +24,5 @@ class ProductyAdmin(admin.ModelAdmin):
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Product,ProductyAdmin)
-admin.site.register(Images)
+admin.site.register(Images,ImagesAdmin)
 admin.site.register(Comment)
